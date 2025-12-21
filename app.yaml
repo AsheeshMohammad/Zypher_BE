@@ -4,5 +4,5 @@ env: standard
 automatic_scaling:
   max_instances: 20
 vpc_access_connector:
-  name: projects/YOUR_PROJECT_ID/locations/YOUR_REGION/connectors/YOUR_CONNECTOR_NAME
-  egress_setting: all-traffic
+name: "projects/zypher-481919/locations/asia-south1/connectors/my-sql-connector"  
+egress_setting: all-traffic
