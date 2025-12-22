@@ -1,5 +1,31 @@
 import swaggerJsdoc from 'swagger-jsdoc';
 
+const getServers = () => {
+  const servers = [];
+  
+  // Production server
+  if (process.env.API_URL) {
+    servers.push({
+      url: process.env.API_URL,
+      description: 'Production server',
+    });
+  }
+  
+  // Development servers
+  servers.push(
+    {
+      url: 'http://localhost:3000',
+      description: 'Development server (Express)',
+    },
+    {
+      url: 'http://localhost:5173',
+      description: 'Development server (Vite)',
+    }
+  );
+  
+  return servers;
+};
+
 const options = {
   definition: {
     openapi: '3.0.0',
@@ -8,12 +34,7 @@ const options = {
       version: '1.0.0',
       description: 'A simple Express API with JWT authentication',
     },
-    servers: [
-      {
-        url: 'http://localhost:3000',
-        description: 'Development server',
-      },
-    ],
+    servers: getServers(),
     components: {
       securitySchemes: {
         bearerAuth: {

@@ -4,5 +4,8 @@ env: standard
 automatic_scaling:
   max_instances: 20
 vpc_access_connector:
-name: "projects/zypher-481919/locations/asia-south1/connectors/my-sql-connector"  
-egress_setting: all-traffic
+  name: "projects/zypher-481919/locations/asia-south1/connectors/my-sql-connector"  
+  egress_setting: all-traffic
+env_variables:
+  API_URL: "https://zypher-481919.el.r.appspot.com"
+  CORS_ORIGIN: "https://zypher-481919.el.r.appspot.com"

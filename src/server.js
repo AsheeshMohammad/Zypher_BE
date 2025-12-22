@@ -59,8 +59,13 @@ const startServer = async () => {
   app.use(limiter);
 
   // CORS configuration
+  const corsOrigins = [process.env.CORS_ORIGIN || 'http://localhost:5173', 'http://localhost:3000', 'http://localhost'];
+  if (process.env.API_URL) {
+    corsOrigins.push(process.env.API_URL);
+  }
+  
   app.use(cors({
-    origin: [process.env.CORS_ORIGIN || 'http://localhost:5173', 'http://localhost:3000'],
+    origin: corsOrigins,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
