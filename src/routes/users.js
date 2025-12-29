@@ -111,14 +111,16 @@ router.get('/:userId/name', authenticateToken, async (req, res) => {
     
     const result = await request.query(`
       SELECT 
-        COALESCE(NULLIF(TRIM(UserName), ''), 'User') AS DisplayName
+        COALESCE(NULLIF(TRIM(UserName), ''), 'User') AS DisplayName,
+        Designation
       FROM ZY_UserMaster 
       WHERE Id = @UserId
     `);
     
     res.json({
       success: true,
-      displayName: result.recordset[0]?.DisplayName || 'Unknown User'
+      displayName: result.recordset[0]?.DisplayName || 'Unknown User',
+      designation: result.recordset[0]?.Designation || 'Not specified'
     });
   } catch (error) {
     res.status(500).json({ 
