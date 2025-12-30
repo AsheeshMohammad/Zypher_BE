@@ -59,13 +59,9 @@ const startServer = async () => {
   app.use(limiter);
 
   // CORS configuration
-  const corsOrigins = [process.env.CORS_ORIGIN || 'http://localhost:5173', 'http://localhost:3000', 'http://localhost'];
-  if (process.env.API_URL) {
-    corsOrigins.push(process.env.API_URL);
-  }
-  
+  // CORS configuration
   app.use(cors({
-    origin: corsOrigins,
+    origin: true, // Allow all origins (reflects request origin)
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
@@ -110,17 +106,17 @@ const startServer = async () => {
       const { getConnection } = await import('./config/database.js');
       const pool = await getConnection();
       await pool.request().query('SELECT 1 as test');
-      res.json({ 
+      res.json({
         success: true,
-        message: 'Database connection successful', 
-        timestamp: new Date().toISOString() 
+        message: 'Database connection successful',
+        timestamp: new Date().toISOString()
       });
     } catch (error) {
-      res.status(500).json({ 
+      res.status(500).json({
         success: false,
-        message: 'Database connection failed', 
+        message: 'Database connection failed',
         error: error.message,
-        timestamp: new Date().toISOString() 
+        timestamp: new Date().toISOString()
       });
     }
   });
@@ -189,7 +185,7 @@ const startServer = async () => {
     const { default: NotificationWebSocket } = await import('./websocket/notifications.js');
     const notificationWS = new NotificationWebSocket(server);
     app.notificationWS = notificationWS;
-    
+
     // Load notification routes
     const { default: notificationRoutes } = await import('./routes/notifications.js');
     app.use('/api/notifications', notificationRoutes);

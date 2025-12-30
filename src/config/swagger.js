@@ -2,7 +2,13 @@ import swaggerJsdoc from 'swagger-jsdoc';
 
 const getServers = () => {
   const servers = [];
-  
+
+  // Relative string for current host
+  servers.push({
+    url: '/',
+    description: 'Current Server (Relative)',
+  });
+
   // Production server
   if (process.env.API_URL) {
     servers.push({
@@ -10,7 +16,7 @@ const getServers = () => {
       description: 'Production server',
     });
   }
-  
+
   // Development servers
   servers.push(
     {
@@ -22,7 +28,7 @@ const getServers = () => {
       description: 'Development server (Vite)',
     }
   );
-  
+
   return servers;
 };
 
