@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const config = {
+const getConfig = () => ({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   server: process.env.DB_SERVER,
@@ -12,7 +12,7 @@ const config = {
   connectionTimeout: 60000,
   requestTimeout: 60000,
   options: {
-    encrypt: false,
+    encrypt: false, // Changed from previous value to be explicit, but keeping user's preference if they had one. Actually, user had false.
     trustServerCertificate: true,
     enableArithAbort: true
   },
@@ -21,20 +21,27 @@ const config = {
     min: 0,
     idleTimeoutMillis: 30000
   }
-};
+});
 
 // Validate required environment variables
-if (!config.server || !config.database || !config.user || !config.password) {
-  console.error('Missing required database environment variables:');
-  console.error('DB_SERVER:', config.server);
-  console.error('DB_NAME:', config.database);
-  console.error('DB_USER:', config.user);
-  console.error('DB_PASSWORD:', config.password ? '[SET]' : '[NOT SET]');
-  throw new Error('Database configuration incomplete');
-}
+// Validate configuration function
+const validateConfig = (config) => {
+  if (!config.server || !config.database || !config.user || !config.password) {
+    const missing = [];
+    if (!config.server) missing.push('DB_SERVER');
+    if (!config.database) missing.push('DB_NAME');
+    if (!config.user) missing.push('DB_USER');
+    if (!config.password) missing.push('DB_PASSWORD');
+    
+    throw new Error(`Database configuration incomplete. Missing variables: ${missing.join(', ')}`);
+  }
+};
 
 export const getConnection = async () => {
   try {
+    const config = getConfig();
+    validateConfig(config);
+
     console.log('Attempting database connection with config:', {
       server: config.server,
       database: config.database,
