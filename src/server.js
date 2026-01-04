@@ -18,6 +18,8 @@ import educationRoutes from './routes/education.js';
 import skillsRoutes from './routes/skills.js';
 import newsRoutes from './routes/news.js';
 import channelsRoutes from './routes/channels.js';
+import plansRoutes from './routes/plans.js';
+import userPlansRoutes from './routes/user_plans.js';
 // import notificationRoutes from './routes/notifications.js';
 // import NotificationWebSocket from './websocket/notifications.js';
 
@@ -132,6 +134,8 @@ const startServer = async () => {
   app.use('/api/skills', skillsRoutes);
   app.use('/api/news', newsRoutes);
   app.use('/api/channels', channelsRoutes);
+  app.use('/api/plans', plansRoutes);
+  app.use('/api/user-plans', userPlansRoutes);
   // app.use('/api/notifications', notificationRoutes); // Moved to dynamic import below
 
   // Root endpoint
@@ -145,6 +149,8 @@ const startServer = async () => {
         users: '/api/users',
         posts: '/api/posts',
         channels: '/api/channels',
+        plans: '/api/plans',
+        userPlans: '/api/user-plans',
         health: '/health',
         testDb: '/test-db',
         documentation: '/api-docs'
